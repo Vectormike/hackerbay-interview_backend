@@ -1,7 +1,11 @@
 import express from "express";
 import bunyan from "bunyan";
-import dotenv from "dotenv";
-dotenv.config();
+import { config } from "dotenv";
+config();
+
+import thumbnail from "./routes/thumbnail";
+import patch from "./routes/patch";
+import auth from "./routes/auth";
 
 const app = express();
 
@@ -15,8 +19,25 @@ app.use(express.json());
 // Enable proxy x-Forwadded-*
 app.enable("trust proxy");
 
+// Routes
+
+/**
+ * User authentication
+ */
+app.use("/api", auth);
+
+/**
+ * JSON Patching
+ */
+app.use("/api", patch);
+
+/**
+ * Thumbnail Generator
+ */
+app.use("/api", thumbnail);
+
 // Set port
-app.set("port", process.env.PORT || 5000);
+app.set("port", process.env.PORT);
 
 // Initialize server
 app.listen(app.get("port"), err => {
