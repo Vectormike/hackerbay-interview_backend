@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { thumbnailData, undefinedthumbnailData } = require("./mocks/thumbnail");
+const { patch, document } = require("./mocks/jsondoc");
 const app = require("../app");
 
 describe("Authentication", () => {
@@ -45,5 +46,38 @@ describe("Thumbnail Endpoint", () => {
       .send(undefinedthumbnailData);
     expect(res.status).to.deep.equal(401);
     expect(res.body.message).to.deep.equal("Image generation failure");
+  });
+  it("should not create thumbnail if no jwt", async () => {
+    const res = await app
+      .patch("/api/jsonpatcher")
+      .set("Connetion", "keep alive")
+      .set("Content-Type", "application/json")
+      .type("form")
+      .send(undefinedthumbnailData);
+    expect(res.status).to.deep.equal(403);
+    expect(res.body.message).to.deep.equal("You are not logged in");
+  });
+});
+
+describe("JSON Patching", () => {
+  it("should patch the json document", async () => {
+    const res = await app
+      .patch("/api/jsonpatcher")
+      .set("Connetion", "keep alive")
+      .set("Content-Type", "application/json")
+      .set("x-access-token", token)
+      .send({ document, patch });
+    res.body.should.have.property("data");
+    res.body.should.have.property("data", { baz: "victor", foo: "bar" });
+  });
+
+  it("should not patch the json document if no jwt", async () => {
+    const res = await app
+      .patch("/api/jsonpatcher")
+      .set("Connetion", "keep alive")
+      .set("Content-Type", "application/json")
+      .send({ document, patch });
+    expect(res.status).to.deep.equal(403);
+    expect(res.body.message).to.deep.equal("You are not logged in");
   });
 });

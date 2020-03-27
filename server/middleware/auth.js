@@ -10,15 +10,14 @@ class AuthMiddleware {
 
     try {
       jwt.verify(token, secret, { expiresIn: "24hr" }, (error, decoded) => {
-        if (error) {
-          res.status(401).json({ msg: "Token is not valid" });
-        } else {
+        if (error) throw err;
+        else {
           req.user = decoded.user;
           next();
         }
       });
     } catch (err) {
-      res.status(500).json({ msg: "Server Error" });
+      res.status(403).json({ msg: "You are not logged in" });
     }
   }
 
