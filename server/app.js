@@ -47,3 +47,5 @@ app.listen(app.get("port"), err => {
     log.info(`Server is running on port ${app.get("port")}`);
   }
 });
+
+export default app;

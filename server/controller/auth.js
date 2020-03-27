@@ -15,7 +15,7 @@ class AuthController {
     const { username } = details;
     const response = await generateToken(details);
     if (response) {
-      res.json({
+      res.status(200).json({
         success: true,
         user: username
       });

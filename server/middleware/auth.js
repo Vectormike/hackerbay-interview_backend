@@ -5,6 +5,9 @@ const secret = process.env.SECRET;
 
 class AuthMiddleware {
   static async verifyToken(token) {
+    let token =
+      req.body.token || req.query.token || req.headers["x-access-token"];
+
     try {
       jwt.verify(token, secret, { expiresIn: "24hr" }, (error, decoded) => {
         if (error) {

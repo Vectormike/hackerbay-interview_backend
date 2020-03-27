@@ -14,7 +14,7 @@ class CreateThumbnail {
         message: "Image generated"
       });
     } catch (error) {
-      res.json({
+      res.status(401).json({
         success: false,
         message: "Image generation failure"
       });
