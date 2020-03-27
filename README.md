@@ -1,3 +1,12 @@
+# Hackerbay Interview Backend
+
+## A simple stateless microservice in Nodejs with the following functionalities -
+
+Authentication
+JSON patching
+Image Thumbnail Generation
+
+
 
 ### Endpoints
 
