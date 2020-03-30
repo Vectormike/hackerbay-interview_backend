@@ -4,7 +4,7 @@
   "description": "NODE API for Hackerbay interview",
   "main": "server",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --compilers js:@babel/register || true",
+    "test": "mocha --require @babel/register --require @babel/polyfill server/test/api.spec.js  --exit",
     "start": "node .",
     "dev": "nodemon -i \"*.test.js\" ."
   },
@@ -23,12 +23,14 @@
     "express": "^4.17.1",
     "jimp": "^0.9.6",
     "jsonpatch": "^3.0.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "spec": "^1.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
+    "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.1.0",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
