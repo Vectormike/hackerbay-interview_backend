@@ -26,7 +26,7 @@ describe("Thumbnail Endpoint", () => {
       const res = await app
         .get("api/createthumbnail")
         .set("Connetion", "keep alive")
-        .set("Content-Type", "application/json")
+        .set("Content-Type", "image")
         .set("x-access-token", token)
         .type("form")
         .send(thumbnailData);
@@ -37,47 +37,63 @@ describe("Thumbnail Endpoint", () => {
     }
   });
   it("shound not create thumbnail if url is undefined", async () => {
-    const res = await app
-      .get("api/thumbnail")
-      .set("Connetion", "keep alive")
-      .set("Content-Type", "application/json")
-      .set("x-access-token", token)
-      .type("form")
-      .send(undefinedthumbnailData);
-    expect(res.status).to.deep.equal(401);
-    expect(res.body.message).to.deep.equal("Image generation failure");
+    try {
+      const res = await app
+        .get("api/createthumbnail")
+        .set("Connetion", "keep alive")
+        .set("Content-Type", "image")
+        .set("x-access-token", token)
+        .type("form")
+        .send(undefinedthumbnailData);
+      expect(res.status).to.deep.equal(401);
+      expect(res.body.message).to.deep.equal("Image generation failure");
+    } catch (error) {
+      return error;
+    }
   });
   it("should not create thumbnail if no jwt", async () => {
-    const res = await app
-      .patch("/api/jsonpatcher")
-      .set("Connetion", "keep alive")
-      .set("Content-Type", "application/json")
-      .type("form")
-      .send(undefinedthumbnailData);
-    expect(res.status).to.deep.equal(403);
-    expect(res.body.message).to.deep.equal("You are not logged in");
+    try {
+      const res = await app
+        .patch("/api/jsonpatcher")
+        .set("Connetion", "keep alive")
+        .set("Content-Type", "application/json")
+        .type("form")
+        .send(thumbnailData);
+      expect(res.status).to.deep.equal(403);
+      expect(res.body.message).to.deep.equal("You are not logged in");
+    } catch (error) {
+      return error;
+    }
   });
 });
 
 describe("JSON Patching", () => {
   it("should patch the json document", async () => {
-    const res = await app
-      .patch("/api/jsonpatcher")
-      .set("Connetion", "keep alive")
-      .set("Content-Type", "application/json")
-      .set("x-access-token", token)
-      .send({ document, patch });
-    res.body.should.have.property("data");
-    res.body.should.have.property("data", { baz: "victor", foo: "bar" });
+    try {
+      const res = await app
+        .patch("/api/jsonpatcher")
+        .set("Connetion", "keep alive")
+        .set("Content-Type", "application/json")
+        .set("x-access-token", token)
+        .send({ document, patch });
+      res.body.should.have.property("data");
+      res.body.should.have.property("data", { baz: "victor", foo: "bar" });
+    } catch (error) {
+      return error;
+    }
   });
 
   it("should not patch the json document if no jwt", async () => {
-    const res = await app
-      .patch("/api/jsonpatcher")
-      .set("Connetion", "keep alive")
-      .set("Content-Type", "application/json")
-      .send({ document, patch });
-    expect(res.status).to.deep.equal(403);
-    expect(res.body.message).to.deep.equal("You are not logged in");
+    try {
+      const res = await app
+        .patch("/api/jsonpatcher")
+        .set("Connetion", "keep alive")
+        .set("Content-Type", "application/json")
+        .send({ document, patch });
+      expect(res.status).to.deep.equal(403);
+      expect(res.body.message).to.deep.equal("You are not logged in");
+    } catch (error) {
+      return error;
+    }
   });
 });

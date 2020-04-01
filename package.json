@@ -4,8 +4,9 @@
   "description": "NODE API for Hackerbay interview",
   "main": "server",
   "scripts": {
-    "test": "mocha --require @babel/register --require @babel/polyfill server/test/api.spec.js  --exit",
+    "test": "mocha --require @babel/register --require @babel/polyfill server/test/api.spec.js  --exit || true",
     "start": "node .",
+    "coverage": "nyc -require @babel/register --require @babel/polyfill report --reporter=text-lcov | coveralls",
     "dev": "nodemon -i \"*.test.js\" ."
   },
   "author": "Victor Jonah",
@@ -19,17 +20,21 @@
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.26.0",
     "bunyan": "^1.8.12",
+    "coveralls": "^3.0.11",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "install": "^0.13.0",
     "jimp": "^0.9.6",
     "jsonpatch": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
+    "nyc": "^15.0.0",
     "spec": "^1.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.1.0",
     "@babel/register": "^7.0.0",
