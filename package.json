@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --require @babel/register --require @babel/polyfill server/test/api.spec.js  --exit || true",
     "start": "node .",
-    "coverage": "nyc -require @babel/register --require @babel/polyfill report --reporter=text-lcov | coveralls",
+    "coverage": "nyc -require @babel/register --require @babel/polyfill --reporter=text-lcov node server/test/api.spec.js | coveralls || true",
     "dev": "nodemon -i \"*.test.js\" ."
   },
   "author": "Victor Jonah",
